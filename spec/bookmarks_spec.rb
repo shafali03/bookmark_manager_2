@@ -1,9 +1,18 @@
 require 'bookmarks'
 
 describe Bookmarks do
-  subject(:bookmarks) { described_class.new }
 
   describe '#all' do
-    it { expect(bookmarks.all).to include("http://www.google.com") }
+    it 'should list bookmarks' do
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+
+      connection.exec("INSERT INTO bookmarks(url) VALUES('http://www.github.com')")
+      connection.exec("INSERT INTO bookmarks(url) VALUES('http://www.makersacademy.com')")
+      connection.exec("INSERT INTO bookmarks(url) VALUES('http://www.google.com')")
+
+      expect(Bookmarks.all).to include("http://www.github.com")
+      expect(Bookmarks.all).to include("http://www.makersacademy.com")
+      expect(Bookmarks.all).to include("http://www.google.com")
+    end
   end
 end

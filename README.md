@@ -42,3 +42,26 @@ bookmark_manager(# );
 - Showed the columns that were in the bookmarks table that we just created
 
 12. Run the query that can be found in db/migrations/01_create_bookmarks_table.sql
+
+
+Setting up a test environment for database:
+- Create a new database called bookmark_manager_test
+- Create an identical table in there to the one in the real database
+- Add an environment variable to spec_helper: ENV['ENVIRONMENT'] = 'test'
+- Do an if statement in self.all to say that if env var is a test, then go to test database, else go to real db
+- Add to unit test and feature test the:
+
+connection = PG.connect(dbname: 'bookmark_manager_test')
+
+    # Add the test data
+    connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.makersacademy.com');")
+    connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.destroyallsoftware.com');")
+    connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.google.com');")
+
+- Create a file in spec called spec_test_database.rb
+- Add a method to it that includes connecting to the test db, and truncating afterwards. and require pg in the file
+- In the spec_helper require that file you just created and add this to configure (do):
+
+config.before(:each) do
+    setup_test_database
+  end
