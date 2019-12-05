@@ -1,9 +1,18 @@
+<style>
+  #link {
+    display: flex;
+  }
+</style>
+
 <% @bookmarks.each do |bookmark| %>
-<li class="<%=bookmark.title%>">
+<li class="<%=bookmark.title%>" id="link">
   <a href="<%=bookmark.url%>"><%=bookmark.title%></a>
   <form action="/bookmarks/<%=bookmark.id%>" method='post'>
     <input type="hidden" name="_method" value='DELETE'>
     <input type="submit" value="Delete">
+  </form>
+  <form action="/bookmarks/<%=bookmark.id%>/edit" method="get">
+    <input type="submit" value="edit">
   </form>
 </li>
 <% end %>
