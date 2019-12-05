@@ -1,4 +1,5 @@
 require 'bookmark'
+require 'database_connection'
 
 
 describe Bookmark do
