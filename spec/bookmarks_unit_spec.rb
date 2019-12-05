@@ -31,4 +31,13 @@ describe Bookmark do
       expect(bookmark.url).to eq 'http://www.github.com'
     end
   end
+
+  describe ".find" do
+    it "should return a requested bookmark" do
+      bookmark = Bookmark.create(url: "http://www.github.com", title: 'github')
+      result = Bookmark.find(id: bookmark.id)
+
+      expect(result.url).to eq("http://www.github.com")
+    end
+  end
 end

@@ -12,7 +12,7 @@ feature "updating a bookmark" do
     fill_in "title", with: "Google"
     click_button "submit"
 
-    expect(page).not_to have_link("makers", href: "http://www.makers.co")
+    expect(page).not_to have_link("makers", href: "http://www.makers.com")
     expect(page).to have_link("Google", href: "https://www.google.com")
   end
 end
