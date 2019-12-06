@@ -40,4 +40,11 @@ describe Bookmark do
       expect(result.url).to eq("http://www.makersacadamy.com")
     end
   end
+
+  it "validates url entries" do
+    Bookmark.create(url: "google", title: 'google')
+    results = Bookmark.all.map { |bookmark| bookmark.title }
+
+    expect(results).not_to include('google')
+  end
 end

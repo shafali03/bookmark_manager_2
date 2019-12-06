@@ -1,4 +1,5 @@
 require 'pg'
+require_relative 'valid'
 
 class Bookmark
 
@@ -13,14 +14,16 @@ class Bookmark
   def self.all
     result = DatabaseConnection.query("SELECT * FROM bookmarks")
     result.map do |item|
-      Bookmark.new(id: item['id'], url: item['url'], title: item['title'])
+      new(id: item['id'], url: item['url'], title: item['title'])
     end
   end
 
   def self.create(url:, title:)
+    return unless Valid.url(url)
+    
 
     result = DatabaseConnection.query("INSERT INTO bookmarks(url, title) VALUES('#{url}', '#{title}') RETURNING id, title, url;")
-    Bookmark.new(id: result[0]['id'], url: result[0]['url'], title: result[0]['title'])
+    new(id: result[0]['id'], url: result[0]['url'], title: result[0]['title'])
   end
 
   def self.delete(id:)
@@ -34,6 +37,6 @@ class Bookmark
 
   def self.find(id:)
     result = DatabaseConnection.query("SELECT * FROM bookmarks WHERE id = #{id}")
-    Bookmark.new(id: result[0]["id"], url: result[0]["url"], title: result[0]["title"])
+    new(id: result[0]["id"], url: result[0]["url"], title: result[0]["title"])
   end
 end
