@@ -1,11 +1,13 @@
-require_relative './setup_test_database'
+ENV['ENVIRONMENT'] = 'test'
 
+require_relative './setup_test_database'
 require './app'
 require 'capybara/rspec'
 require 'sinatra'
 require 'capybara'
 require 'pg'
-ENV['ENVIRONMENT'] = 'test'
+
+
 
 Capybara.app = BookmarkManager
 
